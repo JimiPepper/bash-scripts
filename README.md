@@ -10,6 +10,8 @@ This repository contains all bash scripts I use everyday made by myself.
 
 + **gog.sh** : Move you into a specific folder where all your programming projects are located. If you provide a parameter such it respects a sub-directory name, move you in this sub-directory.
 
++ **resize.sh** : Resize all pictures (jpg, jpeg, gif, png, bmp, tiff) from a folder given as first parameter (the script does not consider sub-folder). The script takes also a second parameter which is the ratio (or percentage) you want to apply. Resized pictures are located in a sub-folder called *resized* and they have the same filename as the original picture.
+
 + **.bash_aliases** :  All alias I used.
 
 Requirements
@@ -44,6 +46,10 @@ Apart from knowing which script(s) I will version later, these are all updates t
 
 + **gog.sh**
   + Provide an environment variable instead of using a hardcoded path stored in the script
+
++ **resize.sh**
+  + Parallelize the script in order two perform several resizing in the same time (as an option to use when you call the script)
+  + Add a verbose option to see how long the process have to work before the script finishes. 
 
 + **.bash_aliases**
   + Add new alias
