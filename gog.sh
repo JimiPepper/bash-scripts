@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ###############
 # DESCRIPTION #
 ###############
@@ -20,8 +22,6 @@
 ########
 # CODE #
 ########
-
-#! /bin/env bash
 
 goproj() {
 	[ -d "$HOME/Git/$1" ] && cd "$HOME/Git/$1" || cd "$HOME/Git"
