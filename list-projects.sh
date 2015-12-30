@@ -26,7 +26,7 @@
 
 # Output one of the shell box character
 # $1 -> an integer between 0 and 10
-box_drawing() {
+_box_drawing() {
 	char=( 6a 6b 6c 6d 6e 71 74 75 76 77 78 )
 	#      ┘  ┐  ┌  └  ┼  ─  ├  ┤  ┴  ┬  │  
 
@@ -35,7 +35,7 @@ box_drawing() {
 
 # Output a special character
 # $1 -> an integer between 0 and 3
-special_character() {
+_special_character() {
 	char=( "\xE2\x9C\x93" "\xE2\x9C\x97" "\xE0\xBF\x94" "\xe2\x97\x89" )
 	#           ✓             ✗                 ࿔              ◉
 
@@ -44,7 +44,7 @@ special_character() {
 
 # Tell if a folder, provided as parameter, contains a git repository
 # $1 -> An absolute path
-is_git_initialized() {
+_is_git_initialized() {
 	if [ -d "$1/.git" ] ; then
 		return 0
 	else
@@ -54,7 +54,7 @@ is_git_initialized() {
 
 # Give the selected branch name or "unitialized" if there are no commit for the selected branch
 # $1 -> An absolute path
-get_git_branch_name() {
+_get_git_branch_name() {
 	branch_name=$(git --git-dir "$1/.git" branch)
 	branch_name=${branch_name[@]:3} # delete the star and space characters at the beginning
 
@@ -65,14 +65,14 @@ get_git_branch_name() {
 	fi
 }
 
-knuth_plass_justify_alogorithm() {
-	echo "TEST"
-}
+#knuth_plass_justify_alogorithm() {
+#	echo "TEST"
+#}
 
 # Split a line into several lines which are displayed in order to be store as an array
 # $1 -> text to split
 # $2 -> split's size
-split() {
+_split() {
         start=0
 		interval=$2
 		text_size=${#1}
@@ -95,7 +95,6 @@ lp() {
 		# 3. Sort by HH:MM
 		# 4. Reverse display
 		# 5. Remove first line (infos about ~/Git itself which we don't care)
-		i
 		IFS=$'\n' # change IFS to get an array -- easiest to manipulate
 		projects_info=($(du -d 1 -h --time ~/Git | tr '\t' ' ' | sort -s -t ' ' -k 2.1,2.4n -k 2.6,2.7n -k 2.9,2.10n | sort -s -t ' ' -k 5.1,5.2n -k 5.4,5.5n | tac | tail -n +2))
 		unset IFS
@@ -104,11 +103,11 @@ lp() {
 
 		### DISPLAYING PART
 		tput setaf 3
-		special_character 3 ; echo -n " "
+		_special_character 3 ; echo -n " "
 		tput smul
 		echo "Programming projects in ~/Git"
 		tput sgr0
-		box_drawing 9 ; echo
+		_box_drawing 9 ; echo
 		for project in "${projects_info[@]}" ; do
 			let counter=counter+1 # to know when code reaches the last project to outuput on terminal
 			project_array=($(echo "$project"))
@@ -119,50 +118,50 @@ lp() {
 			# Index 3 -> Project's absolute path  
 			project_array[3]=${project_array[@]:3} # -- allow to print folder names composed of spaces
 				
-			box_drawing 6 ; box_drawing 5 ; tput bold ; echo -n " $(basename "${project_array[3]}") "
-			if is_git_initialized "${project_array[3]}" ; then
+			_box_drawing 6 ; _box_drawing 5 ; tput bold ; echo -n " $(basename "${project_array[3]}") "
+			if _is_git_initialized "${project_array[3]}" ; then
 				tput setaf 2
-				special_character 0
+				_special_character 0
 				tput sgr0
 				echo -n " - "
 				tput setaf 6
-				get_git_branch_name "${project_array[3]}"
+				_get_git_branch_name "${project_array[3]}"
 			else
 				tput setaf 1 
-				special_character 1
+				_special_character 1
 			fi
 			tput sgr0
 			echo -ne  "\t\t${project_array[0]} - " ; echo -n  ${project_array[1]} | sed -r 's/([[:digit:]]{4}):([[:digit:]]{2}):([[:digit:]]{2})/\3:\2:\1/' ; echo ", ${project_array[2]}"
 			
-			if is_git_initialized "${project_array[3]}" ; then
-				if [ $(get_git_branch_name "${project_array[3]}") != "unitialized" ] ;  then
+			if _is_git_initialized "${project_array[3]}" ; then
+				if [ $(_get_git_branch_name "${project_array[3]}") != "unitialized" ] ;  then
 						commit_info[0]=$(git --git-dir "${project_array[3]}/.git" log -n 1 --format=%ci | \
 						sed -r 's/^([[:digit:]]{4})-([[:digit:]]{2})-([[:digit:]]{2}) ([[:digit:]]{2}:[[:digit:]]{2}:[[:digit:]]{2}) \+[[:digit:]]+$/\4 the \3-\2-\1/' ) 		# commit date
 						commit_info[1]=$(git --git-dir "${project_array[3]}/.git" log -n 1 --format=%an)	 																	# author name
 						commit_info[2]=$(git --git-dir "${project_array[3]}/.git" log -n 1 --format=%ae) 																		# author email address
 						commit_info[3]=$(git --git-dir "${project_array[3]}/.git" log -n 1 --format=%s) 																		# commit message
 
-						box_drawing 10 ; echo -n "  "
+						_box_drawing 10 ; echo -n "  "
 						tput bold ; tput setaf 3
-						special_character 2
+						_special_character 2
 						tput sgr0
 						echo " Last commit at ${commit_info[0]} by ${commit_info[1]} (${commit_info[2]})"
 						
 						size=90 # commit message can have lines of 90 characters maximum
 						IFS=$'\n'
-						lines=(`split "${commit_info[3]}" $size`)
+						lines=(`_split "${commit_info[3]}" $size`)
 						unset IFS
 
 						TO=`expr ${#lines[@]} - 1`
 
 						for index in `seq 0 $TO` ; do
-							box_drawing 10 ; echo "  ${lines[$index]}" ;
+							_box_drawing 10 ; echo "  ${lines[$index]}" ;
 						done
 
 				fi
 			fi
 		
-			[ $counter -lt ${#projects_info[@]} ] && box_drawing 10  && echo 
+			[ $counter -lt ${#projects_info[@]} ] && _box_drawing 10  && echo 
 		done
-		box_drawing 8 ; echo ""
+		_box_drawing 8 ; echo ""
 }
