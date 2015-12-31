@@ -29,6 +29,10 @@ alias apshow='apt-cache showpkg'
 ## JAVA
 alias jar='java -jar'
 
+## RUBY
+alias rb='ruby'
+alias rbv="ruby -v"
+
 ## GIT
 alias gclone='git clone'
 alias gcheckout='git checkout'
