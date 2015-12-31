@@ -42,6 +42,7 @@ alias gremote='git remote add origin'
 alias gpush='git push'
 alias gstatus='git status'
 alias gcommit='git commit -am'
+alias gbranch="git branch"
 #alias gforget='git update-index --assume-unchanged'
 #alias gtrack='git update-index --no-assume-unchanged'
 #alias gclean='git clean -idx'
