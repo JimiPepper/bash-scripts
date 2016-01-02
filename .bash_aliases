@@ -1,6 +1,7 @@
 ## SHORTCUTS FOR COMMON COMMANDS
 alias c="cd .."
 alias rm='rm -i'
+alias mv="mv -i"
 
 ## INFORMATION ABOUT ENVIRONMENT
 alias bash-reload="source ~/.bashrc"
