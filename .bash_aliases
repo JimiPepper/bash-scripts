@@ -34,6 +34,11 @@ alias jar='java -jar'
 alias rb='ruby'
 alias rbv="ruby -v"
 
+## RUBYGEMNS
+alias gbuild='gem build'
+alias ginstall='gem install'
+alias guninstall='gem uninstall'
+
 ## GIT
 alias gclone='git clone'
 alias gcheckout='git checkout'
